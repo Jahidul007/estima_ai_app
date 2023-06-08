@@ -1,4 +1,4 @@
-import 'package:core/model/auth/data/model/access_token_response.dart';
+import 'package:core/model/auth/data/model/access_token_request_response.dart';
 import 'package:core/model/key_info/key_pair_info.dart';
 import 'package:core/model/user/user_profile_response.dart';
 
@@ -7,9 +7,9 @@ abstract class PreferenceManager {
 
   Future<String> getToken();
 
-  saveAccessTokenInfo(AccessTokenResponse response);
+  saveAccessTokenInfo(AccessTokenRequestResponse response);
 
-  Future<AccessTokenResponse> getAccessTokenInfo();
+  Future<AccessTokenRequestResponse> getAccessTokenInfo();
 
   removeLoginInfo();
 

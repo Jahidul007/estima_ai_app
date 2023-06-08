@@ -11,7 +11,7 @@ mixin HeaderProvider {
     final option = accessToken.isNotEmpty?Options(
       headers: <String, String>{
         'Authorization': accessToken.isNotEmpty?"Bearer $accessToken":"",
-        'Content-Type' : getAcceptHeaderType(versionNo: versionCode),
+        'Content-Type' : getContentType(versionNo: versionCode),
         'Accept' : getAcceptHeaderType(versionNo: versionCode),
         'Accept-Language': lnCode,
       },

@@ -8,6 +8,7 @@ class TextInputStreamField extends StatelessWidget {
   final Stream<String?>? errorStream;
   final String label;
   final String hint;
+  final int maxLine;
   final Function(String name) onChange;
   final TextInputType textInputType;
   final TextEditingController textEditingController;
@@ -28,6 +29,7 @@ class TextInputStreamField extends StatelessWidget {
       this.prefixText,
       this.textInputFormatter,
       this.readOnly,
+        this.maxLine =1 ,
       this.suffixWidget})
       : super(key: key);
 
@@ -53,9 +55,9 @@ class TextInputStreamField extends StatelessWidget {
                     RegExp("[A-Za-z0-9#+-_. ()[]]*"),
                     allow: true,
                   ),
-                  LengthLimitingTextInputFormatter(100),
+                  //LengthLimitingTextInputFormatter(100),
                 ],
-            maxLines: null,
+            maxLines: maxLine,
             decoration: InputDecoration(
                 prefixText: prefixText == null || prefixText!.trim().isEmpty
                     ? ""

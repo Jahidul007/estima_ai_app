@@ -1,7 +1,7 @@
 import 'package:core/controller/base_controller.dart';
 import 'package:core/di/setup_core.dart';
 import 'package:core/localizations/data/model/localization.dart';
-import 'package:core/model/auth/data/model/access_token_response.dart';
+import 'package:core/model/auth/data/model/access_token_request_response.dart';
 import 'package:core/model/base_response.dart';
 import 'package:core/network/preference_manager/preference_manager.dart';
 import 'package:core/utils/regex_const.dart';
@@ -54,6 +54,9 @@ class AuthController extends BaseController with EmailValidator {
 
   final Localization _localization = getIt.get<Localization>();
 
+  final BehaviorSubject<bool> _isLoginSuccessController = BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get isLoginStream => _isLoginSuccessController.stream;
+
   AuthController() {
     _passwordVisibilityController.sink.add(_passwordVisibility);
   }
@@ -87,11 +90,13 @@ class AuthController extends BaseController with EmailValidator {
     if (response.isSuccess) {
       showSuccessState();
       await _preferenceManager
-          .saveAccessTokenInfo(response as AccessTokenResponse);
+          .saveAccessTokenInfo(response as AccessTokenRequestResponse);
       _tokenGenerateSuccessController.sink.add(true);
+      _isLoginSuccessController.sink.add(true);
     } else {
       resetPageState();
       _tokenGenerateSuccessController.sink.add(false);
+      _isLoginSuccessController.sink.add(false);
       showToast(response.msg);
     }
   }
@@ -154,6 +159,7 @@ class AuthController extends BaseController with EmailValidator {
     _passwordErrorController.close();
     _passwordVisibilityController.close();
     _tokenGenerateSuccessController.close();
+    _isLoginSuccessController.close();
     super.dispose();
   }
 }

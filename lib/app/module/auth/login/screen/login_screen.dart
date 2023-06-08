@@ -18,12 +18,26 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
   final AuthController _authController = AuthController();
 
   @override
+  void initState() {
+    super.initState();
+    _authController.isLoginStream.listen((event) {
+      logger.d("is success ${event}");
+      if (event) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, EstimaAppRoute.dashboardScreen, (route) => false);
+      }
+    });
+  }
+
+  @override
   PreferredSizeWidget? appBar() {
     return null;
   }
 
   @override
-  bindControllers() {}
+  bindControllers() {
+    addControllers(_authController);
+  }
 
   getTitleTag() {
     return const Center(
@@ -105,7 +119,7 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 border: const OutlineInputBorder(),
                 labelText: "${localization.loginUserNameStar}",
                 hintText: "${localization.loginUserNameHint}",
@@ -136,7 +150,7 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
             onChanged: _authController.updatePassword,
             decoration: InputDecoration(
               contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               border: const OutlineInputBorder(),
               labelText: "${localization.loginPasswordStar}",
               labelStyle: labelText,
@@ -149,7 +163,9 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
                   snapshot.data!.isVisible!
                       ? Icons.visibility_off
                       : Icons.visibility,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme
+                      .of(context)
+                      .primaryColor,
                 ),
                 onPressed: () {
                   _authController.updatePasswordVisibility();

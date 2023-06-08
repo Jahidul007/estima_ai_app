@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:core/model/auth/data/model/access_token_response.dart';
+import 'package:core/model/auth/data/model/access_token_request_response.dart';
 import 'package:core/model/key_info/key_pair_info.dart';
 import 'package:core/model/user/user_profile_response.dart';
 import 'package:core/network/preference_manager/preference_manager.dart';
@@ -58,23 +58,23 @@ class PreferenceManagerImpl extends PreferenceManager {
   }
 
   @override
-  saveAccessTokenInfo(AccessTokenResponse response) async {
+  saveAccessTokenInfo(AccessTokenRequestResponse response) async {
     await getSharedPref().then((FlutterSecureStorage pref) {
-      saveToken(response.accessToken);
+      saveToken(response.jwt);
       pref.write(key: keyCloakToken, value: jsonEncode(response));
     });
   }
 
   @override
-  Future<AccessTokenResponse> getAccessTokenInfo() async {
+  Future<AccessTokenRequestResponse> getAccessTokenInfo() async {
     return await getSharedPref().then((FlutterSecureStorage pref) async {
       var keycloak = await pref.read(key: keyCloakToken);
       if (keycloak == null) {
-        return AccessTokenResponse.responseWithError(
+        return AccessTokenRequestResponse.responseWithError(
           "Initial value",
         );
       } else {
-        return AccessTokenResponse.fromJson(jsonDecode(keycloak));
+        return AccessTokenRequestResponse.fromJson(jsonDecode(keycloak));
       }
     });
   }

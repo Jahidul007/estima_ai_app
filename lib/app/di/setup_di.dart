@@ -4,6 +4,7 @@ import 'package:core/network/preference_manager/preference_manager.dart';
 import 'package:core/network/preference_manager/preference_manager_impl.dart';
 import 'package:estima_ai_app/app/module/auth/login/data/repository/access_token_repository.dart';
 import 'package:estima_ai_app/app/module/auth/registration/data/repository/user_registration_repository.dart';
+import 'package:estima_ai_app/app/module/dashboard/data/repository/user_profile_with_history_repository.dart';
 import 'package:estima_ai_app/app/module/flavor/flavor_config.dart';
 import 'package:estima_ai_app/app/module/splash/controller/splash_controller.dart';
 import 'package:estima_ai_app/app/module/splash/controller/token_expiry_wallet_handler.dart';
@@ -20,7 +21,6 @@ Future<void> setup() async {
   getIt.registerLazySingleton<PreferenceManager>(() => PreferenceManagerImpl());
 
   _initializeNotification();
-
 
   getIt.registerLazySingleton<PreferenceManager>(
     () => PreferenceManagerImpl(),
@@ -41,11 +41,13 @@ void _setupCoreDependencies() {
   );
 }
 
-
-
 _setUpRepository() {
-  getIt.registerLazySingleton<AccessTokenRepository>(() => AccessTokenRepository());
-  getIt.registerLazySingleton<UseRegistrationRepository>(() => UseRegistrationRepository());
+  getIt.registerLazySingleton<AccessTokenRepository>(
+      () => AccessTokenRepository());
+  getIt.registerLazySingleton<UseRegistrationRepository>(
+      () => UseRegistrationRepository());
+  getIt.registerLazySingleton<UserProfileWithHistoryRepository>(
+      () => UserProfileWithHistoryRepository());
 }
 
 _setupController() {
@@ -55,8 +57,6 @@ _setupController() {
   );
 }
 
-
-
 // todo move this to notification module
 void _initializeNotification() async {
   //todo massive change
@@ -64,5 +64,4 @@ void _initializeNotification() async {
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
       iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock));
   getIt.registerLazySingleton<FlutterSecureStorage>(() => sharedPreferences);
-
 }
