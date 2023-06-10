@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 showUserStoryGeneratorWidget(BuildContext context,
     UserProfileWithHistoryController userProfileWithHistoryController) {
-  final _userStoriesController = TextEditingController();
+  final _userStoriesController = TextEditingController(text: "");
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -18,32 +18,48 @@ showUserStoryGeneratorWidget(BuildContext context,
           insetPadding:
               const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           content: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextInputStreamField(
-                    stream: userProfileWithHistoryController
-                        .userStoriesController.textStream,
-                    errorStream: userProfileWithHistoryController
-                        .userStoriesController.errorStream,
-                    label: "User Stories*",
-                    hint: "Please insert user stories",
-                    onChange: (name) => userProfileWithHistoryController
-                        .userStoriesController
-                        .updateText(name),
-                    textEditingController: _userStoriesController),
-                customHeight(),
-                AppButton(
-                  onPressed: () {
-                    if (userProfileWithHistoryController.checkInputIsOkay()) {
-                      userProfileWithHistoryController.getReportData();
-                      Navigator.pop(context);
-                    } else {
-                      showToast("please insert stories");
-                    }
-                  },
-                  title: "Submit",
-                )
-              ],
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.close),
+                      ),
+                    ),
+                  ),
+                  TextInputStreamField(
+                      stream: userProfileWithHistoryController
+                          .userStoriesController.textStream,
+                      errorStream: userProfileWithHistoryController
+                          .userStoriesController.errorStream,
+                      label: "User Stories*",
+                      hint: "Please insert user stories",
+                      maxLine: 10,
+                      onChange: (name) => userProfileWithHistoryController
+                          .userStoriesController
+                          .updateText(name),
+                      textEditingController: _userStoriesController),
+                  customHeight(),
+                  AppButton(
+                    onPressed: () {
+                      if (userProfileWithHistoryController.checkInputIsOkay()) {
+                        userProfileWithHistoryController.getReportData();
+                        Navigator.pop(context);
+                      } else {
+                        showToast("please insert stories");
+                      }
+                    },
+                    title: "Submit",
+                  )
+                ],
+              ),
             ),
           ),
         );

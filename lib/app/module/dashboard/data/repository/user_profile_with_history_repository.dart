@@ -27,8 +27,8 @@ class UserProfileWithHistoryRepository extends BaseRepository {
     return callApiAndHandleErrors(
       () async {
         var response = await apiHelper.post(
-            "/process-user-stories", jsonEncode([data[0].toJson()]));
-        return ReportResponse.fromJsonMap(response.data)..isSuccess = true;
+            "/process-user-stories", jsonEncode([data[0].toJson(),data[1].toJson() ]));
+        return ReportResponse.fromJson(response.data)..isSuccess = true;
       },
       (message, errorType) async =>
           ReportResponse.responseWithError(errorType, message),
@@ -36,15 +36,14 @@ class UserProfileWithHistoryRepository extends BaseRepository {
   }
 
   Future<BaseResponse> generateReportFromJson(
-      {required List<ReportDataResponse> data}) async {
+      {required ReportResponse data,required String title}) async {
     var param = {
-      "title": "EstimaAi",
-      "exportType": "PDF"
+      "title": title,
     };
     return callApiAndHandleErrors(
       () async {
         var response = await apiHelper.post(
-            "/generate-report-from-json", [data[0].toJson()], queryParameters: param);
+            "/user/save-processed-stories", data.toJson(), queryParameters: param);
         return BaseResponse.fromJson(response.data)..isSuccess = true;
       },
       (message, errorType) async =>

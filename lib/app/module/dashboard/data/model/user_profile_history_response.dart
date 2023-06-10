@@ -25,7 +25,7 @@ class UserProfileWithHistory extends BaseResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = name;
     data['email'] = email;
     if (reportHistories != null) {
@@ -38,16 +38,18 @@ class UserProfileWithHistory extends BaseResponse {
     return data;
   }
 
-  UserProfileWithHistory.responseWithError(DioErrorType? errorType, String message) {
+  UserProfileWithHistory.responseWithError(
+      DioErrorType? errorType, String message) {
     isSuccess = false;
     errorType = errorType;
     msg = message;
+    reportHistories = [];
   }
 }
 
-class ReportHistories{
+class ReportHistories {
   int? id;
-  List<JsonData>? jsonData;
+  JsonData? jsonData;
   String? generationTime;
   String? title;
 
@@ -55,21 +57,17 @@ class ReportHistories{
 
   ReportHistories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    if (json['jsonData'] != null) {
-      jsonData = <JsonData>[];
-      json['jsonData'].forEach((v) {
-        jsonData!.add(JsonData.fromJson(v));
-      });
-    }
+    jsonData =
+        json['jsonData'] != null ? JsonData.fromJson(json['jsonData']) : null;
     generationTime = json['generationTime'];
     title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     if (jsonData != null) {
-      data['jsonData'] = jsonData!.map((v) => v.toJson()).toList();
+      data['jsonData'] = jsonData!.toJson();
     }
     data['generationTime'] = generationTime;
     data['title'] = title;
@@ -78,6 +76,62 @@ class ReportHistories{
 }
 
 class JsonData {
+  int? totalTime;
+  List<ReportDataList>? reportDataList;
+
+  JsonData({this.totalTime, this.reportDataList});
+
+  JsonData.fromJson(Map<String, dynamic> json) {
+    totalTime = json['totalTime'];
+    if (json['reportDataList'] != null) {
+      reportDataList = <ReportDataList>[];
+      json['reportDataList'].forEach((v) {
+        reportDataList!.add(ReportDataList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['totalTime'] = totalTime;
+    if (reportDataList != null) {
+      data['reportDataList'] = reportDataList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ReportDataList {
+  String? title;
+  List<BreakdownDataList>? breakdownDataList;
+  int? totalTime;
+
+  ReportDataList({this.title, this.breakdownDataList, this.totalTime});
+
+  ReportDataList.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    if (json['breakdownDataList'] != null) {
+      breakdownDataList = <BreakdownDataList>[];
+      json['breakdownDataList'].forEach((v) {
+        breakdownDataList!.add(BreakdownDataList.fromJson(v));
+      });
+    }
+    totalTime = json['totalTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['title'] = title;
+    if (breakdownDataList != null) {
+      data['breakdownDataList'] =
+          breakdownDataList!.map((v) => v.toJson()).toList();
+    }
+    data['totalTime'] = totalTime;
+    return data;
+  }
+}
+
+class BreakdownDataList {
   String? featureTitle;
   String? featureIntent;
   String? subtasksOfFeatures;
@@ -85,15 +139,15 @@ class JsonData {
   String? complexity;
   String? kloc;
 
-  JsonData(
+  BreakdownDataList(
       {this.featureTitle,
-        this.featureIntent,
-        this.subtasksOfFeatures,
-        this.implementationTime,
-        this.complexity,
-        this.kloc});
+      this.featureIntent,
+      this.subtasksOfFeatures,
+      this.implementationTime,
+      this.complexity,
+      this.kloc});
 
-  JsonData.fromJson(Map<String, dynamic> json) {
+  BreakdownDataList.fromJson(Map<String, dynamic> json) {
     featureTitle = json['featureTitle'];
     featureIntent = json['featureIntent'];
     subtasksOfFeatures = json['subtasksOfFeatures'];
@@ -103,7 +157,7 @@ class JsonData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['featureTitle'] = featureTitle;
     data['featureIntent'] = featureIntent;
     data['subtasksOfFeatures'] = subtasksOfFeatures;
@@ -130,17 +184,17 @@ class UserTeamMemberSurvey {
 
   UserTeamMemberSurvey(
       {this.id,
-        this.teamExp,
-        this.managerExp,
-        this.yearEnd,
-        this.length,
-        this.effort,
-        this.transactions,
-        this.entities,
-        this.pointsAdjust,
-        this.envergure,
-        this.pointsNonAdjust,
-        this.language});
+      this.teamExp,
+      this.managerExp,
+      this.yearEnd,
+      this.length,
+      this.effort,
+      this.transactions,
+      this.entities,
+      this.pointsAdjust,
+      this.envergure,
+      this.pointsNonAdjust,
+      this.language});
 
   UserTeamMemberSurvey.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -158,7 +212,7 @@ class UserTeamMemberSurvey {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['teamExp'] = teamExp;
     data['managerExp'] = managerExp;

@@ -49,7 +49,9 @@ class ApiBaseHelper with HeaderProvider {
     final _option = await getHeaders(versionCode: versionCode);
     try {
       var response = await _dio.post("$_baseUrl$url",
-          options: _option, data: requestBody, queryParameters: queryParameters);
+          options: _option,
+          data: requestBody,
+          queryParameters: queryParameters);
 
       return response;
     } on SocketException {
@@ -61,8 +63,8 @@ class ApiBaseHelper with HeaderProvider {
 
   Future<dynamic> put(String url, dynamic requestBody,
       {Map<String, dynamic>? queryParameters,
-        bool isDecode = true,
-        String? versionCode}) async {
+      bool isDecode = true,
+      String? versionCode}) async {
     var body = isDecode ? json.encode(requestBody) : requestBody;
     dynamic responseJson;
     final _option = await getHeaders(versionCode: versionCode);
@@ -85,7 +87,7 @@ class ApiBaseHelper with HeaderProvider {
     final _option = await getHeaders(versionCode: versionCode);
     try {
       var response =
-      await _dio.patch("$_baseUrl$url", options: _option, data: body);
+          await _dio.patch("$_baseUrl$url", options: _option, data: body);
 
       responseJson = response;
       return response;
@@ -114,8 +116,8 @@ class ApiBaseHelper with HeaderProvider {
 
   Future<dynamic> fileUpload(String url,
       {dynamic requestBody,
-        Map<String, dynamic>? queryParameters,
-        String? versionCode}) async {
+      Map<String, dynamic>? queryParameters,
+      String? versionCode}) async {
     dynamic responseJson;
     final _option = await getHeaders(versionCode: versionCode);
     try {
@@ -134,19 +136,20 @@ class ApiBaseHelper with HeaderProvider {
 
   Future<dynamic> fileDownload(String url,
       {dynamic requestBody,
-        Map<String, dynamic>? queryParameters,
-        String? versionCode}) async {
+      Map<String, dynamic>? queryParameters,
+      String? versionCode}) async {
     dynamic responseJson;
-    final _option = await getHeaders(versionCode: versionCode)
+    final _option = await getHeaders(versionCode: versionCode, isPDF: true)
+      ..contentType = 'application/pdf'
       ..responseType = ResponseType.bytes
-      ..contentType = 'multipart/form-data'
+      ..contentType = 'application/pdf'
       ..followRedirects = false
       ..validateStatus = (status) {
         return status! < 500;
       };
 
     try {
-      Response response = await _dio.get(
+      Response response = await _dio.post(
         url,
         options: _option,
         queryParameters: queryParameters,
@@ -184,9 +187,9 @@ class WalletAppException implements Exception {
 }
 
 Future<T> callApiAndHandleErrors<T>(
-    Future<T> Function() apiCall,
-    Future<T> Function(String message, DioErrorType? errorType) responseWithError,
-    ) async {
+  Future<T> Function() apiCall,
+  Future<T> Function(String message, DioErrorType? errorType) responseWithError,
+) async {
   try {
     return await apiCall();
   } on DioError catch (e) {

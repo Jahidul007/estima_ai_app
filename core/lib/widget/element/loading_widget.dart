@@ -9,7 +9,7 @@ Widget showLoading(BuildContext context) {
     child: const Center(
       child: SpinKitCircle(
         size: 50,
-        color: Color(0xff800080),
+        color: Color(0xff317773),
       ),
     ),
   );

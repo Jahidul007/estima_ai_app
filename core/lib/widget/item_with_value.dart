@@ -20,7 +20,7 @@ class ItemWithValue extends StatelessWidget {
           : MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: Text(tag, style: textNormal70Style.copyWith(fontSize: fontSize)),
+          child: Text(tag, style: textStyle.copyWith(fontSize: fontSize, fontWeight: FontWeight.bold)),
           flex: 2,
         ),
         customWidth(width: 5),

@@ -593,18 +593,18 @@ const notificationDateTime = TextStyle(
   fontWeight: FontWeight.w600,
 );
 Map<int, Color> primaryColorMap = {
-  50: const Color.fromRGBO(128, 0, 128, .1),
-  100: const Color.fromRGBO(128, 0, 128, .2),
-  200: const Color.fromRGBO(128, 0, 128, .3),
-  300: const Color.fromRGBO(128, 0, 128, .4),
-  400: const Color.fromRGBO(128, 0, 128, .5),
-  500: const Color.fromRGBO(128, 0, 128, .6),
-  600: const Color.fromRGBO(128, 0, 128, .7),
-  700: const Color.fromRGBO(128, 0, 128, .8),
-  800: const Color.fromRGBO(128, 0, 128, .9),
-  900: const Color.fromRGBO(128, 0, 128, 1),
+  50: const Color.fromRGBO(0, 0, 128, .1),
+  100: const Color.fromRGBO(0, 0, 128, .2),
+  200: const Color.fromRGBO(0, 0, 128, .3),
+  300: const Color.fromRGBO(0, 0, 128, .4),
+  400: const Color.fromRGBO(0, 0, 128, .5),
+  500: const Color.fromRGBO(0, 0, 128, .6),
+  600: const Color.fromRGBO(0, 0, 128, .7),
+  700: const Color.fromRGBO(0, 0, 128, .8),
+  800: const Color.fromRGBO(0, 0, 128, .9),
+  900: const Color.fromRGBO(0, 0, 128, 1),
 };
-const primaryColor = Color(0xff800080);
+const primaryColor = Color(0xff317773);
 const primaryTextColor = Color(0xff002540);
 
 const green = Color(0xFF0DB85C);

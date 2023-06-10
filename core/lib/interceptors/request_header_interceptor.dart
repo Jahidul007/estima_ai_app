@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 class RequestHeaderInterceptor extends InterceptorsWrapper {
 
   String getContentType({String? versionNo}) {
-    return "application/vnd.unipet.v${versionNo ?? 1.0}+json";
+    return "application/json";
   }
 
 
@@ -25,7 +25,7 @@ class RequestHeaderInterceptor extends InterceptorsWrapper {
     if(accessToken.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
-    options.headers['Content-Type'] = getContentType();
+    //options.headers['Content-Type'] = getContentType();
 
     if (globalController.getLangCode().isEmpty) {
       langCode = await getIt.get<PreferenceManager>().getLocalization();

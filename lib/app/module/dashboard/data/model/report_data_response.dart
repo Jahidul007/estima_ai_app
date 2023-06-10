@@ -1,13 +1,30 @@
 import 'package:core/model/base_response.dart';
 import 'package:dio/dio.dart';
 
-class ReportResponse extends BaseResponse{
-  List<ReportDataResponse>? data;
+class ReportResponse extends BaseResponse {
+  int? totalTime;
+  List<ReportDataList>? reportDataList;
 
-  ReportResponse(this.data);
+  ReportResponse({this.totalTime, this.reportDataList});
 
-  ReportResponse.fromJsonMap(dynamic data):
-        data = List<ReportDataResponse>.from(data.map((vt) => ReportDataResponse.fromJson(vt)));
+  ReportResponse.fromJson(Map<String, dynamic> json) {
+    totalTime = json['totalTime'];
+    if (json['reportDataList'] != null) {
+      reportDataList = <ReportDataList>[];
+      json['reportDataList'].forEach((v) {
+        reportDataList!.add(ReportDataList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['totalTime'] = totalTime;
+    if (reportDataList != null) {
+      data['reportDataList'] = reportDataList!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 
   ReportResponse.responseWithError(DioErrorType? errorType, String message) {
     isSuccess = false;
@@ -16,13 +33,14 @@ class ReportResponse extends BaseResponse{
   }
 }
 
-class ReportDataResponse extends BaseResponse{
+class ReportDataList {
   String? title;
   List<BreakdownDataList>? breakdownDataList;
+  int? totalTime;
 
-  ReportDataResponse({this.title, this.breakdownDataList});
+  ReportDataList({this.title, this.breakdownDataList, this.totalTime});
 
-  ReportDataResponse.fromJson(Map<String, dynamic> json) {
+  ReportDataList.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['breakdownDataList'] != null) {
       breakdownDataList = <BreakdownDataList>[];
@@ -30,6 +48,7 @@ class ReportDataResponse extends BaseResponse{
         breakdownDataList!.add(BreakdownDataList.fromJson(v));
       });
     }
+    totalTime = json['totalTime'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,13 +58,8 @@ class ReportDataResponse extends BaseResponse{
       data['breakdownDataList'] =
           breakdownDataList!.map((v) => v.toJson()).toList();
     }
+    data['totalTime'] = totalTime;
     return data;
-  }
-
-  ReportDataResponse.responseWithError(DioErrorType? errorType, String message) {
-    isSuccess = false;
-    errorType = errorType;
-    msg = message;
   }
 }
 
@@ -59,11 +73,11 @@ class BreakdownDataList {
 
   BreakdownDataList(
       {this.featureTitle,
-        this.featureIntent,
-        this.subtasksOfFeatures,
-        this.implementationTime,
-        this.complexity,
-        this.kloc});
+      this.featureIntent,
+      this.subtasksOfFeatures,
+      this.implementationTime,
+      this.complexity,
+      this.kloc});
 
   BreakdownDataList.fromJson(Map<String, dynamic> json) {
     featureTitle = json['featureTitle'];

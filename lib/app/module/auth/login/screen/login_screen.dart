@@ -78,6 +78,7 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
               child: const Text('Login'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: primaryColor
               ),
             ),
             const SizedBox(height: 16),
