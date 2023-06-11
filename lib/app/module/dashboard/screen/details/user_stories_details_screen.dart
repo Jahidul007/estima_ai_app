@@ -3,7 +3,7 @@ import 'package:core/screen/base_screen.dart';
 import 'package:core/utils/constants.dart';
 import 'package:core/widget/custom_height_width.dart';
 import 'package:estima_ai_app/app/module/dashboard/data/model/user_profile_history_response.dart';
-import 'package:estima_ai_app/app/module/dashboard/data/repository/file_download_repository.dart';
+import 'package:estima_ai_app/app/module/dashboard/screen/report_generation/pdf_generator_widget.dart';
 import 'package:estima_ai_app/app/module/dashboard/screen/widget/feature_breakdown_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +66,7 @@ class _UserStoriesDetailsScreenState
   Widget? floatingActionButton() {
     return InkWell(
       onTap: () async {
-        await FileDownloadRepository(widget.reportHistories).generateInvoice();
+        await PDFDownloadGenerator(widget.reportHistories).generateInvoice();
       },
       child: Container(
         decoration: BoxDecoration(

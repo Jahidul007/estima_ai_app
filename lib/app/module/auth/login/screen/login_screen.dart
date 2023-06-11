@@ -21,7 +21,6 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
   void initState() {
     super.initState();
     _authController.isLoginStream.listen((event) {
-      logger.d("is success ${event}");
       if (event) {
         Navigator.pushNamedAndRemoveUntil(
             context, EstimaAppRoute.dashboardScreen, (route) => false);
