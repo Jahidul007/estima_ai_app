@@ -4,7 +4,7 @@ import 'package:estima_ai_app/app/module/dashboard/data/model/user_profile_histo
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:core/utils/extension/string_extension.dart';
-import '../../data/repository/save_file_mobile.dart'
+import 'save_file_mobile.dart'
     if (dart.library.html) 'save_file_web.dart';
 
 class PDFDownloadGenerator extends BaseRepository {

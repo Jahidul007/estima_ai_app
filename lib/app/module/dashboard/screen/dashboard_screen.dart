@@ -109,21 +109,21 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen> {
                             flex: 5,
                             child: Text(
                               defaultIfNull("Feature Title"),
-                              style: body2regular.copyWith(fontSize: 18),
+                              style: body2regular.copyWith(fontSize: 18, color: Colors.white),
                             ),
                           ),
                           Expanded(
                             flex: 2,
                             child: Text(
                               defaultIfNull("Date Time"),
-                              style: body2regular.copyWith(fontSize: 18),
+                              style: body2regular.copyWith(fontSize: 18, color: Colors.white),
                             ),
                           ),
                           Expanded(
                             flex: 2,
                             child: Text(
                               defaultIfNull("Durations(Hour)"),
-                              style: body2regular.copyWith(fontSize: 18),
+                              style: body2regular.copyWith(fontSize: 18, color: Colors.white),
                             ),
                           ),
                           //customWidth(width: 30),
@@ -131,7 +131,7 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen> {
                             flex: 1,
                             child: Text(
                               " \t\t\t   Action",
-                              style: body2regular.copyWith(fontSize: 18),
+                              style: body2regular.copyWith(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ],
@@ -187,13 +187,14 @@ class _DashboardScreenState extends BaseScreen<DashboardScreen> {
                                       arguments: reportHistories[index],
                                     );
                                   },
-                                  child: const CircleAvatar(
+                                  child:  CircleAvatar(
                                     radius: 20,
-                                    backgroundColor: primaryColor,
-                                    child: Padding(
+                                    backgroundColor: primaryColor.withOpacity(0.2),
+                                    child: const Padding(
                                       padding: EdgeInsets.all(2.0),
                                       child: Icon(
                                         Icons.more_horiz,
+                                        color: primaryColor,
                                       ),
                                     ),
                                   ),
