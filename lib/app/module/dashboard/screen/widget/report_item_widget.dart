@@ -3,13 +3,13 @@ import 'package:core/utils/string_utils.dart';
 import 'package:core/widget/custom_divider.dart';
 import 'package:core/widget/custom_height_width.dart';
 import 'package:core/widget/item_with_value.dart';
-import 'package:estima_ai_app/app/module/dashboard/data/model/user_profile_history_response.dart';
+import 'package:estima_ai_app/app/module/dashboard/data/model/report_data_response.dart';
 import 'package:flutter/material.dart';
 
-class FeatureBreakDownWidget extends StatelessWidget {
+class ReportItemWidget extends StatelessWidget {
   final ReportDataList reportDataList;
 
-  const FeatureBreakDownWidget({Key? key, required this.reportDataList})
+  const ReportItemWidget({Key? key, required this.reportDataList})
       : super(key: key);
 
   @override
@@ -58,7 +58,7 @@ class FeatureBreakDownWidget extends StatelessWidget {
                 },
                 children: List<TableRow>.generate(
                   reportDataList.breakdownDataList!.length,
-                  (index) => TableRow(
+                      (index) => TableRow(
                     children: [
                       getCellData(
                           '${reportDataList.breakdownDataList![index].featureTitle}'),

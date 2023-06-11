@@ -1,13 +1,21 @@
+import 'package:core/utils/constants.dart';
 import 'package:core/utils/show_toast.dart';
 import 'package:core/widget/app_button.dart';
 import 'package:core/widget/custom_height_width.dart';
 import 'package:core/widget/text_field_stream.dart';
+import 'package:core/widget/title_with_background.dart';
 import 'package:estima_ai_app/app/module/dashboard/controller/user_profile_with_history_controller.dart';
 import 'package:flutter/material.dart';
 
 showUserStoryGeneratorWidget(BuildContext context,
     UserProfileWithHistoryController userProfileWithHistoryController) {
+  final _userStoriesTitleController = TextEditingController(text: "");
   final _userStoriesController = TextEditingController(text: "");
+
+  final _userStoriesTitle2Controller = TextEditingController(text: "");
+  final _userStories2Controller = TextEditingController(text: "");
+
+  userProfileWithHistoryController.resetAllData();
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -34,19 +42,107 @@ showUserStoryGeneratorWidget(BuildContext context,
                       ),
                     ),
                   ),
+                  const TitleWithBackground(title: "User Stories 1"),
+                  customHeight(),
+                  TextInputStreamField(
+                    stream: userProfileWithHistoryController
+                        .userStoriesTitleController.textStream,
+                    errorStream: userProfileWithHistoryController
+                        .userStoriesTitleController.errorStream,
+                    label: "Title*",
+                    hint: "Please insert user stories title",
+                    maxLine: 1,
+                    onChange: (name) => userProfileWithHistoryController
+                        .userStoriesTitleController
+                        .updateText(name),
+                    textEditingController: _userStoriesTitleController,
+                  ),
+                  customHeight(),
                   TextInputStreamField(
                       stream: userProfileWithHistoryController
                           .userStoriesController.textStream,
                       errorStream: userProfileWithHistoryController
                           .userStoriesController.errorStream,
-                      label: "User Stories*",
+                      label: "Stories*",
                       hint: "Please insert user stories",
-                      maxLine: 10,
+                      maxLine: 3,
                       onChange: (name) => userProfileWithHistoryController
                           .userStoriesController
                           .updateText(name),
                       textEditingController: _userStoriesController),
                   customHeight(),
+                  StreamBuilder<bool?>(
+                    stream: userProfileWithHistoryController.addMoreStream,
+                    builder: (context, snapshot) {
+                      bool addMore = false;
+                      if(snapshot.hasData){
+                        addMore = snapshot.data!;
+                      }
+                      return Column(
+                        children: [
+                          if(!addMore)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              customWidth(),
+                              InkWell(
+                                onTap: () {
+                                  userProfileWithHistoryController
+                                      .updateAddMore(true);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: primaryColor,
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 2),
+                                    child: Text("Add more"),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          if(addMore)
+                          Column(
+                            children: [
+                              customHeight(),
+                              const TitleWithBackground(title: "User Stories 2"),
+                              customHeight(),
+                              TextInputStreamField(
+                                stream: userProfileWithHistoryController
+                                    .userStoriesTitle2Controller.textStream,
+                                errorStream: userProfileWithHistoryController
+                                    .userStoriesTitle2Controller.errorStream,
+                                label: "Title*",
+                                hint: "Please insert user stories title 2",
+                                maxLine: 1,
+                                onChange: (name) => userProfileWithHistoryController
+                                    .userStoriesTitle2Controller
+                                    .updateText(name),
+                                textEditingController: _userStoriesTitle2Controller,
+                              ),
+                              customHeight(),
+                              TextInputStreamField(
+                                  stream: userProfileWithHistoryController
+                                      .userStories2Controller.textStream,
+                                  errorStream: userProfileWithHistoryController
+                                      .userStories2Controller.errorStream,
+                                  label: "Stories*",
+                                  hint: "Please insert user stories 2",
+                                  maxLine: 5,
+                                  onChange: (name) => userProfileWithHistoryController
+                                      .userStories2Controller
+                                      .updateText(name),
+                                  textEditingController: _userStories2Controller),
+                              customHeight(),
+                            ],
+                          )
+                        ],
+                      );
+                    }
+                  ),
                   AppButton(
                     onPressed: () {
                       if (userProfileWithHistoryController.checkInputIsOkay()) {

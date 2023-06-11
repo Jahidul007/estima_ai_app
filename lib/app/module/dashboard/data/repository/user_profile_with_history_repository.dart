@@ -27,7 +27,7 @@ class UserProfileWithHistoryRepository extends BaseRepository {
     return callApiAndHandleErrors(
       () async {
         var response = await apiHelper.post(
-            "/process-user-stories", jsonEncode([data[0].toJson(),data[1].toJson() ]));
+            "/process-user-stories", jsonEncode(data));
         return ReportResponse.fromJson(response.data)..isSuccess = true;
       },
       (message, errorType) async =>

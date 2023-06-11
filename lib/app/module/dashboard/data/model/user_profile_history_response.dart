@@ -25,7 +25,7 @@ class UserProfileWithHistory extends BaseResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['email'] = email;
     if (reportHistories != null) {
@@ -52,8 +52,14 @@ class ReportHistories {
   JsonData? jsonData;
   String? generationTime;
   String? title;
+  int? totalTime;
 
-  ReportHistories({this.id, this.jsonData, this.generationTime, this.title});
+  ReportHistories(
+      {this.id,
+      this.jsonData,
+      this.generationTime,
+      this.title,
+      this.totalTime});
 
   ReportHistories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,16 +67,18 @@ class ReportHistories {
         json['jsonData'] != null ? JsonData.fromJson(json['jsonData']) : null;
     generationTime = json['generationTime'];
     title = json['title'];
+    totalTime = json['totalTime'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     if (jsonData != null) {
       data['jsonData'] = jsonData!.toJson();
     }
     data['generationTime'] = generationTime;
     data['title'] = title;
+    data['totalTime'] = totalTime;
     return data;
   }
 }
@@ -92,7 +100,7 @@ class JsonData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['totalTime'] = totalTime;
     if (reportDataList != null) {
       data['reportDataList'] = reportDataList!.map((v) => v.toJson()).toList();
@@ -120,7 +128,7 @@ class ReportDataList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['title'] = title;
     if (breakdownDataList != null) {
       data['breakdownDataList'] =
@@ -157,7 +165,7 @@ class BreakdownDataList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['featureTitle'] = featureTitle;
     data['featureIntent'] = featureIntent;
     data['subtasksOfFeatures'] = subtasksOfFeatures;
@@ -212,7 +220,7 @@ class UserTeamMemberSurvey {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['teamExp'] = teamExp;
     data['managerExp'] = managerExp;

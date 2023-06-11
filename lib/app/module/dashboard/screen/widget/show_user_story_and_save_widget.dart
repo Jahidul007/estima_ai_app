@@ -5,6 +5,7 @@ import 'package:core/widget/text_field_stream.dart';
 import 'package:estima_ai_app/app/module/dashboard/controller/user_profile_with_history_controller.dart';
 import 'package:estima_ai_app/app/module/dashboard/data/model/report_data_response.dart';
 import 'package:flutter/material.dart';
+import 'report_item_widget.dart';
 
 showUserStoriesAndSave(
   BuildContext context,
@@ -12,58 +13,88 @@ showUserStoriesAndSave(
   UserProfileWithHistoryController controller,
 ) {
   final _projectTitleEdition = TextEditingController();
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        contentPadding: const EdgeInsets.all(16),
-        content: SingleChildScrollView(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              children: [
-                TextInputStreamField(
-                    stream: controller.projectTitle.textStream,
-                    errorStream: controller.projectTitle.errorStream,
-                    label: "Title*",
-                    hint: "Please insert user title",
-                    maxLine: 1,
-                    onChange: (name) =>
-                        controller.projectTitle.updateText(name),
-                    textEditingController: _projectTitleEdition),
-                customHeight(),
-                Text(
-                  "${response.reportDataList!.first.title}",
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppButtonSmall(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        title: "Close",
+
+  showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(10),
+          topLeft: Radius.circular(10),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              constraints: const BoxConstraints(maxWidth: 600,),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.close),
                       ),
                     ),
-                    customWidth(width: 10),
-                    Expanded(
-                      child: AppButton(
-                        onPressed: () {
-                          if (controller.projectTitle.isInputValid()) {
+                  ),
+                  customHeight(),
+                  TextInputStreamField(
+                      stream: controller.projectTitle.textStream,
+                      errorStream: controller.projectTitle.errorStream,
+                      label: "Title*",
+                      hint: "Please insert user title",
+                      maxLine: 1,
+                      onChange: (name) =>
+                          controller.projectTitle.updateText(name),
+                      textEditingController: _projectTitleEdition),
+                  customHeight(),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: response.reportDataList!.length,
+                    itemBuilder: (context, ind) {
+                      return ReportItemWidget(
+                        reportDataList: response.reportDataList![ind],
+                      );
+                    },
+                    separatorBuilder: (context, index) => customHeight(),
+                  ),
+                  customHeight(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppButtonSmall(
+                          onPressed: () {
                             Navigator.of(context).pop();
-                            controller.saveReportData(response);
-                          }
-                        },
-                        title: "Save",
+                          },
+                          title: "Close",
+                        ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                      customWidth(width: 10),
+                      Expanded(
+                        child: AppButton(
+                          onPressed: () {
+                            if (controller.projectTitle.isInputValid()) {
+                              Navigator.of(context).pop();
+                              controller.saveReportData(response);
+                            }
+                          },
+                          title: "Save",
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      });
 }

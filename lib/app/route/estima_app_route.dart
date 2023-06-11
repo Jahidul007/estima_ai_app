@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 abstract class EstimaAppRoute {
   static const String splash = "/splash";
-  static const String authScreen = "/auth";
+  static const String authScreen = "/login";
   static const String registrationScreen = "/registration";
   static const String dashboardScreen = "/dashboard";
   static const String userHistoryDetailsScreen = "/historyDetails";

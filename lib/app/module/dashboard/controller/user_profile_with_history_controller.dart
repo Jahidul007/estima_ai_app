@@ -20,11 +20,22 @@ class UserProfileWithHistoryController extends BaseController {
 
   Stream<ReportResponse?> get reportDataStream => _reportDataController.stream;
 
+  late TextFieldController userStoriesTitleController;
   late TextFieldController userStoriesController;
   late TextFieldController projectTitle;
 
+  late TextFieldController userStoriesTitle2Controller;
+  late TextFieldController userStories2Controller;
+
   UserProfileWithHistoryController() {
+    userStoriesTitleController = TextFieldController(
+        validationMessage: "Please insert user stories title");
     userStoriesController =
+        TextFieldController(validationMessage: "Please insert user stories");
+
+    userStoriesTitle2Controller = TextFieldController(
+        validationMessage: "Please insert user stories title");
+    userStories2Controller =
         TextFieldController(validationMessage: "Please insert user stories");
     projectTitle =
         TextFieldController(validationMessage: "Please insert project title");
@@ -58,18 +69,25 @@ class UserProfileWithHistoryController extends BaseController {
 
   getReportData() async {
     showLoadingState();
-    var response = await reportRepository.getReportData(
-      data: [
-        UserStoriesWithTitle(
-          userStory: userStoriesController.text,
-          title: "Order History",
-        ),
-        UserStoriesWithTitle(
-          userStory: "As an administrator, I want to be able to manage user accounts, so that I can control access to the system.",
-          title: "User Account Management",
-        )
-      ],
+
+    List<UserStoriesWithTitle> listOfUserStory = [];
+    listOfUserStory.add(
+      UserStoriesWithTitle(
+        userStory: userStoriesController.text,
+        title: userStoriesTitleController.text,
+      ),
     );
+
+    if (_addMoreController.value == true) {
+      listOfUserStory.add(
+        UserStoriesWithTitle(
+          userStory: userStories2Controller.text,
+          title: userStoriesTitle2Controller.text,
+        ),
+      );
+    }
+
+    var response = await reportRepository.getReportData(data: listOfUserStory);
     handleApiCall(response, onSuccess: _handleReportSuccessResponse);
   }
 
@@ -116,18 +134,40 @@ class UserProfileWithHistoryController extends BaseController {
   }
 
   checkInputIsOkay() {
-    return userStoriesController.isInputValid();
+    bool isOkay = false;
+
+    isOkay = userStoriesTitleController.isInputValid() &&
+        userStoriesController.isInputValid();
+
+    if (_addMoreController.hasValue && _addMoreController.value == true) {
+      isOkay = userStoriesTitle2Controller.isInputValid() &&
+          userStories2Controller.isInputValid();
+    }
+
+    return isOkay;
   }
 
   resetAllData() {
-    userStoriesController.resetField();
-    _reportDataController.add(null);
+    //userStoriesController.resetField();
+     _reportDataController.add(null);
+     userStoriesTitle2Controller.resetField();
+     userStories2Controller.resetField();
+    _addMoreController.add(false);
+  }
+
+  final _addMoreController = BehaviorSubject<bool?>.seeded(false);
+
+  Stream<bool?> get addMoreStream => _addMoreController.stream;
+
+  updateAddMore(bool value) {
+    _addMoreController.sink.add(value);
   }
 
   @override
   void dispose() {
     userStoriesController.dispose();
     _userStoriesReportController.close();
+    _addMoreController.close();
     super.dispose();
   }
 }
