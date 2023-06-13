@@ -17,7 +17,9 @@ class UserRegistrationController extends BaseController {
 
   Stream<String> get passwordStream => _passwordController.stream;
 
-  Stream<String> get _password => _passwordController.stream;
+
+  final _isRegistrationSuccessController = BehaviorSubject<bool>();
+  Stream<bool> get isRegistrationSuccess => _isRegistrationSuccessController.stream;
 
   //Password visibility
   var _passwordVisibility = false;
@@ -59,9 +61,11 @@ class UserRegistrationController extends BaseController {
     BaseResponse response = await _registrationRepository
         .submitUserRegistration(registrationResponse);
     if (response.isSuccess) {
+      _isRegistrationSuccessController.sink.add(true);
       successMessage = "User registration has been successful";
       stateController.add(PageState.SUCCESS);
     } else {
+      _isRegistrationSuccessController.sink.add(false);
       errorMessage = response.msg;
       stateController.add(PageState.FAILED);
     }

@@ -1,6 +1,7 @@
 import 'package:core/screen/base_page_screen.dart';
 import 'package:core/screen/base_screen.dart';
 import 'package:core/utils/constants.dart';
+import 'package:core/utils/show_toast.dart';
 import 'package:core/widget/custom_input_with_error.dart';
 import 'package:core/widget/text_field_stream.dart';
 import 'package:estima_ai_app/app/module/auth/login/data/model/password.dart';
@@ -20,12 +21,28 @@ class _RegistrationScreenState extends BaseScreen<RegistrationScreen> {
       UserRegistrationController();
 
   @override
+  void initState() {
+    super.initState();
+    _registrationController.isRegistrationSuccess.listen((event) {
+      if(event== true){
+
+        showToast(_registrationController.successMessage);
+        Navigator.of(context).pop();
+      }else{
+        showToast(_registrationController.errorMessage);
+      }
+    });
+  }
+
+  @override
   PreferredSizeWidget? appBar() {
     return null;
   }
 
   @override
-  bindControllers() {}
+  bindControllers() {
+    addControllers(_registrationController);
+  }
 
   getTitleTag() {
     return const Center(
