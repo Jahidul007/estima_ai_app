@@ -19,8 +19,8 @@ Dio httpDio(
     {bool? shouldRetryOnError = true, String baseUrl = "",}) {
   final _options = BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: 60 * 1000,
-    receiveTimeout: 60 * 1000,
+    connectTimeout: 120 * 1000,
+    receiveTimeout: 120 * 1000,
   );
 
   Dio _instance = Dio(_options)

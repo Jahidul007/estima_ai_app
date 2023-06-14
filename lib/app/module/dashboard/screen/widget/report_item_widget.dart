@@ -22,7 +22,7 @@ class ReportItemWidget extends StatelessWidget {
           children: [
             ItemWithValue(
               "${reportDataList.title}",
-              "${reportDataList.totalTime}",
+              "${reportDataList.totalTime} Hours",
               textStyle: body1SemiBold.copyWith(fontSize: 18),
             ),
             customHeight(),
@@ -34,15 +34,55 @@ class ReportItemWidget extends StatelessWidget {
                 3: FractionColumnWidth(.15),
                 4: FractionColumnWidth(.2)
               },
-              children: const [
+              children:  [
                 // first table row
                 TableRow(
                   children: [
-                    Text('Feature Title'),
-                    Text('Feature Intent'),
-                    Text('Subtasks of Features'),
-                    Text('Complexity(1-5)'),
-                    Text('Durations(Hours)'),
+                    Container(
+                        color: primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Epic',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
+                    Container(
+                        color: primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Intent',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
+                    Container(
+                        color: primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Subtasks',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
+                    Container(
+                        color: primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Complexity(1-5)',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
+                    Container(
+                        color: primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Durations(Hours)',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
                   ],
                 ),
               ],

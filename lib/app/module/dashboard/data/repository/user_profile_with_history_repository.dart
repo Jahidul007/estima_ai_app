@@ -35,16 +35,45 @@ class UserProfileWithHistoryRepository extends BaseRepository {
     );
   }
 
+  Future<ReportHistories> getReportDetails(
+      {required String id}) async {
+    return callApiAndHandleErrors(
+      () async {
+
+        var params = {
+          "id": id,
+        };
+        var response = await apiHelper.get(
+            "/user/report-history-by-id", queryParameters: params);
+        return ReportHistories.fromJson(response.data)..isSuccess = true;
+      },
+      (message, errorType) async =>
+          ReportHistories.responseWithError(errorType, message),
+    );
+  }
+
   Future<BaseResponse> generateReportFromJson(
-      {required ReportResponse data,required String title}) async {
+      {required ReportResponse data,required String title, String?id}) async {
     var param = {
       "title": title,
     };
     return callApiAndHandleErrors(
       () async {
-        var response = await apiHelper.post(
-            "/user/save-processed-stories", data.toJson(), queryParameters: param);
-        return BaseResponse.fromJson(response.data)..isSuccess = true;
+        if(id!=null){
+          var param = {
+            "id": id,
+            "title": ""
+          };
+          var response = await apiHelper.post(
+              "/user/save-processed-stories", jsonEncode(data), queryParameters: param);
+          return BaseResponse.fromJson(response.data)..isSuccess = true;
+        }else{
+          var response = await apiHelper.post(
+              "/user/save-processed-stories", data.toJson(), queryParameters: param);
+          return BaseResponse.fromJson(response.data)..isSuccess = true;
+        }
+
+
       },
       (message, errorType) async =>
           BaseResponse(msg: message),

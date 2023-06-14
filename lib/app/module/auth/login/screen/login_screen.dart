@@ -1,6 +1,7 @@
 import 'package:core/screen/base_page_screen.dart';
 import 'package:core/screen/base_screen.dart';
 import 'package:core/utils/constants.dart';
+import 'package:core/widget/custom_height_width.dart';
 import 'package:core/widget/custom_input_with_error.dart';
 import 'package:estima_ai_app/app/module/auth/login/controller/auth_controller.dart';
 import 'package:estima_ai_app/app/module/auth/login/data/model/password.dart';
@@ -54,16 +55,8 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'EstimaAI',
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
+            Image.asset("images/dashboard_logo.png",),
+            customHeight(height: 24),
             _loginEmail(context),
             const SizedBox(height: 16),
             _loginPassword(context),
@@ -94,6 +87,7 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
+            customHeight(height: 200)
           ],
         ),
       ),

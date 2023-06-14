@@ -1,18 +1,15 @@
 import 'package:core/widget/app_button.dart';
 import 'package:core/widget/app_button_small.dart';
 import 'package:core/widget/custom_height_width.dart';
-import 'package:core/widget/text_field_stream.dart';
 import 'package:estima_ai_app/app/module/dashboard/controller/user_profile_with_history_controller.dart';
 import 'package:estima_ai_app/app/module/dashboard/data/model/report_data_response.dart';
 import 'package:flutter/material.dart';
 import 'report_item_widget.dart';
 
-showUserStoriesAndSave(
-  BuildContext context,
-  ReportResponse response,
-  UserProfileWithHistoryController controller,
-) {
-  final _projectTitleEdition = TextEditingController();
+showUserStoriesAndSave(BuildContext context, ReportResponse response,
+    UserProfileWithHistoryController controller,
+    {String? id, ReportResponse? reportResponse, String? title}) {
+  //controller.projectTitle.updateText("$title");
 
   showModalBottomSheet(
       context: context,
@@ -29,7 +26,9 @@ showUserStoriesAndSave(
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              constraints: const BoxConstraints(maxWidth: 600,),
+              constraints: const BoxConstraints(
+                maxWidth: 600,
+              ),
               child: Column(
                 children: [
                   Align(
@@ -44,7 +43,7 @@ showUserStoriesAndSave(
                       ),
                     ),
                   ),
-                  customHeight(),
+                  /*customHeight(),
                   TextInputStreamField(
                       stream: controller.projectTitle.textStream,
                       errorStream: controller.projectTitle.errorStream,
@@ -53,7 +52,7 @@ showUserStoriesAndSave(
                       maxLine: 1,
                       onChange: (name) =>
                           controller.projectTitle.updateText(name),
-                      textEditingController: _projectTitleEdition),
+                      textEditingController: _projectTitleEdition),*/
                   customHeight(),
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
@@ -81,9 +80,11 @@ showUserStoriesAndSave(
                       Expanded(
                         child: AppButton(
                           onPressed: () {
-                            if (controller.projectTitle.isInputValid()) {
-                              Navigator.of(context).pop();
-                              controller.saveReportData(response);
+                            Navigator.of(context).pop();
+                            if (reportResponse != null) {
+                              controller.saveReportData(reportResponse, id: id);
+                            } else {
+                              controller.saveReportData(response, id: id);
                             }
                           },
                           title: "Save",

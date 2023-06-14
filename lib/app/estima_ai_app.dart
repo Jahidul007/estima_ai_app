@@ -190,7 +190,7 @@ class _EstimaAppState extends State<EstimaApp> {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.light,
-        primaryColor: const Color(0xff317773),
+        primaryColor: const Color(0xff58a3a5),
         textTheme: const TextTheme(
             labelLarge: TextStyle(
               color: Colors.white,
@@ -199,7 +199,7 @@ class _EstimaAppState extends State<EstimaApp> {
             )),
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: MaterialColor(0xff317773, primaryColorMap),
+          primarySwatch: MaterialColor(0xff58a3a5, primaryColorMap),
         )
             .copyWith(secondary: primaryColor)
             .copyWith(background: dashboardBgColor),

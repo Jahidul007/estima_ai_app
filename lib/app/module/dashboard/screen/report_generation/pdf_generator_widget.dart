@@ -29,7 +29,7 @@ class PDFDownloadGenerator extends BaseRepository {
     //Draw grid
     drawGrid(page, grid, result);
     //Add invoice footer
-    drawFooter(page, pageSize);
+  //  drawFooter(page, pageSize);
     //Save the PDF document
     final List<int> bytes = document.saveSync();
     //Dispose the document.
@@ -42,18 +42,18 @@ class PDFDownloadGenerator extends BaseRepository {
   PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
     //Draw rectangle
     page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(49, 119, 115)),
+        brush: PdfSolidBrush(PdfColor(88, 163, 165)),
         bounds: Rect.fromLTWH(0, 0, pageSize.width - 115, 60));
     //Draw string
     page.graphics.drawString(
-        'Paglaa AI Inc.', PdfStandardFont(PdfFontFamily.helvetica, 24),
+        'Estima AI Inc.', PdfStandardFont(PdfFontFamily.helvetica, 24),
         brush: PdfBrushes.white,
         bounds: Rect.fromLTWH(25, 0, pageSize.width - 115, 60),
         format: PdfStringFormat(lineAlignment: PdfVerticalAlignment.middle));
 
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 60),
-        brush: PdfSolidBrush(PdfColor(49, 119, 115)));
+        brush: PdfSolidBrush(PdfColor(88, 163, 165)));
 
     page.graphics.drawString('${reportHistories.jsonData?.totalTime}',
         PdfStandardFont(PdfFontFamily.helvetica, 18),
@@ -74,15 +74,17 @@ class PDFDownloadGenerator extends BaseRepository {
 
 
     final String invoiceNumber =
-        '\tEstimation Number: ${reportHistories.id}\tDate: '
+        'Project Name: ${reportHistories.title} \tEstimation Number: ${reportHistories.id}\tDate: '
         '${reportHistories.generationTime!.getFormattedDateFromFormattedString(
-      currentFormat: "yyyy-mm-ddTHH:mm:ssZ",
+      currentFormat: "yyyy-MM-ddTHH:mm:ssZ",
       desiredFormat: "dd-MMM-yyyy hh:mm a",
     )}';
     final Size contentSize = contentFont.measureString(invoiceNumber);
 
-    return PdfTextElement(text: invoiceNumber, font: contentFont).draw(
-        page: page, bounds: Rect.fromLTWH(0, 80, contentSize.width + 30, 0))!;
+
+    return PdfTextElement(text: invoiceNumber, font: PdfStandardFont(PdfFontFamily.helvetica, 9,
+      style: PdfFontStyle.bold, )).draw(
+        page: page, bounds: Rect.fromLTWH(0, 80, contentSize.width + 30, 50))!;
   }
 
   //Draws the grid
@@ -116,7 +118,7 @@ class PDFDownloadGenerator extends BaseRepository {
   //Draw the invoice footer data.
   void drawFooter(PdfPage page, Size pageSize) {
     final PdfPen linePen =
-        PdfPen(PdfColor(142, 170, 219), dashStyle: PdfDashStyle.custom);
+        PdfPen(PdfColor(88, 163, 165), dashStyle: PdfDashStyle.custom);
     linePen.dashPattern = <double>[3, 3];
     //Draw line
     page.graphics.drawLine(linePen, Offset(0, pageSize.height - 100),
@@ -197,18 +199,18 @@ class PDFDownloadGenerator extends BaseRepository {
 
   void addHeader(PdfGrid grid) {
     final PdfGridRow row = grid.rows.add();
-    row.style.backgroundBrush = PdfSolidBrush(PdfColor(49, 119, 115));
-    row.cells[0].value = 'Feature Title';
+    row.style.backgroundBrush = PdfSolidBrush(PdfColor(88, 163, 165));
+    row.cells[0].value = 'Epic';
     row.cells[0].style = PdfGridCellStyle(
         textBrush:  PdfBrushes.white,
         font: PdfStandardFont(PdfFontFamily.helvetica, 9,
             style: PdfFontStyle.bold, ));
-    row.cells[1].value = 'Feature Intent';
+    row.cells[1].value = 'Intent';
     row.cells[1].style = PdfGridCellStyle(
         textBrush:  PdfBrushes.white,
         font: PdfStandardFont(PdfFontFamily.helvetica, 9,
           style: PdfFontStyle.bold, ));
-    row.cells[2].value = 'Subtasks of Features';
+    row.cells[2].value = 'Subtasks';
     row.cells[2].style = PdfGridCellStyle(
         textBrush:  PdfBrushes.white,
         font: PdfStandardFont(PdfFontFamily.helvetica, 9,

@@ -41,16 +41,19 @@ class UserProfileWithHistoryController extends BaseController {
         TextFieldController(validationMessage: "Please insert project title");
   }
 
-  UserProfileWithHistoryRepository reportRepository =
+  UserProfileWithHistoryRepository userProfileRepository =
       getIt.get<UserProfileWithHistoryRepository>();
 
   refreshPage() {
     getUserProfileWithHistory();
   }
 
+  refreshPageForDetails({required String id}) {
+    getDetailsData(id: id);
+  }
   getUserProfileWithHistory() async {
     showLoadingState();
-    var response = await reportRepository.getUserProfileWithHistory(
+    var response = await userProfileRepository.getUserProfileWithHistory(
         exportType: "", userStories: "");
     handleApiCall(response, onSuccess: _handleSuccessResponse);
   }
@@ -87,7 +90,7 @@ class UserProfileWithHistoryController extends BaseController {
       );
     }
 
-    var response = await reportRepository.getReportData(data: listOfUserStory);
+    var response = await userProfileRepository.getReportData(data: listOfUserStory);
     handleApiCall(response, onSuccess: _handleReportSuccessResponse);
   }
 
@@ -98,11 +101,12 @@ class UserProfileWithHistoryController extends BaseController {
     //saveReportData(reportDataResponse);
   }
 
-  saveReportData(ReportResponse reportDataResponse) async {
+  saveReportData(ReportResponse reportDataResponse, {String? id}) async {
     showLoadingState();
-    var response = await reportRepository.generateReportFromJson(
+    var response = await userProfileRepository.generateReportFromJson(
       data: reportDataResponse,
       title: projectTitle.text,
+      id: id,
     );
     _handleResponse(response);
   }
@@ -148,7 +152,9 @@ class UserProfileWithHistoryController extends BaseController {
   }
 
   resetAllData() {
-    //userStoriesController.resetField();
+    projectTitle.resetField();
+    userStoriesTitleController.resetField();
+     userStoriesController.resetField();
      _reportDataController.add(null);
      userStoriesTitle2Controller.resetField();
      userStories2Controller.resetField();
@@ -161,6 +167,23 @@ class UserProfileWithHistoryController extends BaseController {
 
   updateAddMore(bool value) {
     _addMoreController.sink.add(value);
+  }
+
+  final _reportDetailsController = BehaviorSubject<ReportHistories>();
+  Stream<ReportHistories> get reportDetailsStream => _reportDetailsController.stream;
+  
+  getDetailsData({required String id}) async{
+    showLoadingState();
+    var response = await userProfileRepository.getReportDetails(id: id);
+    handleApiCall(response, onSuccess: _handleDetailsSuccessResponse);
+  }
+
+  _handleDetailsSuccessResponse(BaseResponse response){
+    showSuccessState();
+
+    ReportHistories reportHistories = response as ReportHistories;
+    _reportDetailsController.sink.add(reportHistories);
+
   }
 
   @override

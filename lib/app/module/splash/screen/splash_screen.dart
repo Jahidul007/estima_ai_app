@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xff317773),
+          color: Color(0xff58a3a5),
           image: DecorationImage(
               image: AssetImage("images/splash_mask.png"), fit: BoxFit.fill),
         ),
