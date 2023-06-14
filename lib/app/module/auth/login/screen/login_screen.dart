@@ -87,7 +87,7 @@ class _LoginScreenState extends BaseScreen<LoginScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            customHeight(height: 200)
+            customHeight(height: 100)
           ],
         ),
       ),
