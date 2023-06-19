@@ -43,16 +43,6 @@ showUserStoriesAndSave(BuildContext context, ReportResponse response,
                       ),
                     ),
                   ),
-                  /*customHeight(),
-                  TextInputStreamField(
-                      stream: controller.projectTitle.textStream,
-                      errorStream: controller.projectTitle.errorStream,
-                      label: "Title*",
-                      hint: "Please insert user title",
-                      maxLine: 1,
-                      onChange: (name) =>
-                          controller.projectTitle.updateText(name),
-                      textEditingController: _projectTitleEdition),*/
                   customHeight(),
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),

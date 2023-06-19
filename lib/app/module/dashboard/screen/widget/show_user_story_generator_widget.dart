@@ -65,8 +65,8 @@ showUserStoryGeneratorWidget(BuildContext context,
                         .userStoriesTitleController.textStream,
                     errorStream: userProfileWithHistoryController
                         .userStoriesTitleController.errorStream,
-                    label: "Title*",
-                    hint: "Please insert user stories title",
+                    label: "Epic*",
+                    hint: "Please insert user stories Epic",
                     maxLine: 1,
                     onChange: (name) => userProfileWithHistoryController
                         .userStoriesTitleController
@@ -136,8 +136,8 @@ showUserStoryGeneratorWidget(BuildContext context,
                                         userProfileWithHistoryController
                                             .userStoriesTitle2Controller
                                             .errorStream,
-                                    label: "Title*",
-                                    hint: "Please insert user stories title 2",
+                                    label: "Epic*",
+                                    hint: "Please insert user stories Epic 2",
                                     maxLine: 1,
                                     onChange: (name) =>
                                         userProfileWithHistoryController
