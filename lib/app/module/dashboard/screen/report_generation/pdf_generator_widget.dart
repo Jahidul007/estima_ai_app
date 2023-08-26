@@ -1,3 +1,4 @@
+import 'package:core/network/error_handlers.dart';
 import 'package:core/repository/base_repository.dart';
 import 'package:core/utils/string_utils.dart';
 import 'package:estima_ai_app/app/module/dashboard/data/model/user_profile_history_response.dart';
@@ -54,6 +55,8 @@ class PDFDownloadGenerator extends BaseRepository {
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 60),
         brush: PdfSolidBrush(PdfColor(88, 163, 165)));
+
+    logger.d("user total time: ${reportHistories.jsonData?.totalTime}");
 
     page.graphics.drawString('${reportHistories.jsonData?.totalTime}',
         PdfStandardFont(PdfFontFamily.helvetica, 18),

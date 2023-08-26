@@ -34,6 +34,7 @@ class _UserStoriesDetailsScreenState
   @override
   void initState() {
     super.initState();
+    reportHistories = widget.reportHistories;
     controller.getDetailsData(id: "${widget.reportHistories.id}");
 
     controller.reportDataStream.listen(
@@ -160,7 +161,9 @@ class _UserStoriesDetailsScreenState
   Widget? floatingActionButton() {
     return InkWell(
       onTap: () async {
-        await PDFDownloadGenerator(widget.reportHistories, ).generateInvoice();
+        await PDFDownloadGenerator(
+            reportHistories!)
+            .generateInvoice();
       },
       child: Container(
         decoration: BoxDecoration(
